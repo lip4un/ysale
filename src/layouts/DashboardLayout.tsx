@@ -30,6 +30,7 @@ export function DashboardLayout() {
     const navItems = [
         { path: '/dashboard', icon: <LayoutDashboard size={20} />, label: t('nav.dashboard') },
         { path: '/dashboard/campaigns', icon: <Target size={20} />, label: t('nav.campaigns') },
+        { path: '/dashboard/manager', icon: <Zap size={20} />, label: t('nav.ads_manager') },
         { path: '/dashboard/competitors', icon: <Search size={20} />, label: t('nav.competitors') },
         { path: '/dashboard/creatives', icon: <ImageIcon size={20} />, label: t('nav.creatives') },
         { path: '/dashboard/audiences', icon: <Users size={20} />, label: t('nav.audiences') },

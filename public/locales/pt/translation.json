@@ -19,7 +19,8 @@
         "connect": "Conectar Contas",
         "billing": "Assinatura",
         "profile": "Perfil",
-        "logout": "Sair"
+        "logout": "Sair",
+        "ads_manager": "Gerenciador de Ads"
     },
     "home": {
         "hero": {

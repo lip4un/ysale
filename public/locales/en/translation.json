@@ -19,7 +19,8 @@
         "connect": "Connect Accounts",
         "billing": "Billing",
         "profile": "Profile",
-        "logout": "Logout"
+        "logout": "Logout",
+        "ads_manager": "Ads Manager"
     },
     "home": {
         "hero": {

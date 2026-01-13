@@ -14,6 +14,7 @@ import { AudienceSegments } from './pages/AudienceSegments';
 import { CompetitorAnalysis } from './pages/CompetitorAnalysis';
 import { SmartRules } from './pages/SmartRules';
 import { WhiteLabelSettings } from './pages/WhiteLabelSettings';
+import { AdsManager } from './pages/AdsManager';
 import { NotFound } from './pages/NotFound';
 
 // Footer pages
@@ -65,6 +66,7 @@ function App() {
           <Route path="connect" element={<Connect />} />
           <Route path="rules" element={<SmartRules />} />
           <Route path="whitelabel" element={<WhiteLabelSettings />} />
+          <Route path="manager" element={<AdsManager />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="profile" element={<Profile />} />
         </Route>
