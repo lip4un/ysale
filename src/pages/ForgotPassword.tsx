@@ -6,14 +6,32 @@ import { toast } from 'sonner';
 
 export function ForgotPassword() {
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock send grid logic later
-        console.log('Sending reset email to:', email);
-        setSubmitted(true);
-        toast.success('Reset link sent to your email!');
+        setLoading(true);
+
+        try {
+            const response = await fetch('/api/send-reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            if (response.ok) {
+                setSubmitted(true);
+                toast.success('Reset link sent to your email!');
+            } else {
+                const data = await response.json();
+                toast.error(data.error || 'Failed to send email');
+            }
+        } catch (error) {
+            toast.error('Network error. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -39,8 +57,8 @@ export function ForgotPassword() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <button type="submit" className={classes.submitBtn}>
-                            Send Reset Link
+                        <button type="submit" className={classes.submitBtn} disabled={loading}>
+                            {loading ? 'Sending...' : 'Send Reset Link'}
                         </button>
                     </form>
                 ) : (
