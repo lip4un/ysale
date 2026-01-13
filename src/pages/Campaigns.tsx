@@ -42,7 +42,12 @@ export function Campaigns() {
                     <h1>Campanhas</h1>
                     <p>Gerencie e analise suas campanhas de anúncios</p>
                 </div>
-                <button className={classes.newBtn}>+ Nova Campanha</button>
+                <button
+                    className={classes.newBtn}
+                    onClick={() => navigate('/dashboard/manager')}
+                >
+                    + Nova Campanha
+                </button>
             </header>
 
             <div className={classes.controls}>

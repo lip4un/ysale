@@ -14,10 +14,12 @@ export interface Rule {
 interface AppContextType {
     campaigns: Campaign[];
     connectedAccounts: { google: boolean; meta: boolean };
+    tokens: { google: string | null; meta: string | null };
     rules: Rule[];
     loading: boolean;
     toggleCampaignStatus: (id: string) => void;
     toggleAccountConnection: (platform: 'google' | 'meta') => void;
+    setToken: (platform: 'google' | 'meta', token: string | null) => void;
     addRule: (rule: Omit<Rule, 'id' | 'isActive'>) => void;
     toggleRuleStatus: (id: string) => void;
     deleteRule: (id: string) => void;
@@ -28,34 +30,52 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
     const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-    const [connectedAccounts, setConnectedAccounts] = useState({ google: false, meta: true });
+    const [connectedAccounts, setConnectedAccounts] = useState({ google: false, meta: false });
+    const [tokens, setTokens] = useState<{ google: string | null; meta: string | null }>({ google: null, meta: null });
     const [rules, setRules] = useState<Rule[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Initial Load & Persistence
     useEffect(() => {
         const savedAccounts = localStorage.getItem('connectedAccounts');
+        const savedTokens = localStorage.getItem('api_tokens');
         const savedRules = localStorage.getItem('rules');
         const savedCampaigns = localStorage.getItem('campaigns');
 
         if (savedAccounts) setConnectedAccounts(JSON.parse(savedAccounts));
+        if (savedTokens) setTokens(JSON.parse(savedTokens));
         if (savedRules) setRules(JSON.parse(savedRules));
 
         if (savedCampaigns) {
             setCampaigns(JSON.parse(savedCampaigns));
             setLoading(false);
         } else {
-            getCampaigns().then(data => {
+            getCampaigns(tokens).then(data => {
                 setCampaigns(data);
                 setLoading(false);
             });
         }
     }, []);
 
+    // Re-fetch when tokens change
+    useEffect(() => {
+        if (tokens.meta || tokens.google) {
+            setLoading(true);
+            getCampaigns(tokens).then(data => {
+                setCampaigns(data);
+                setLoading(false);
+            });
+        }
+    }, [tokens]);
+
     // Save to LocalStorage on change
     useEffect(() => {
         localStorage.setItem('connectedAccounts', JSON.stringify(connectedAccounts));
     }, [connectedAccounts]);
+
+    useEffect(() => {
+        localStorage.setItem('api_tokens', JSON.stringify(tokens));
+    }, [tokens]);
 
     useEffect(() => {
         localStorage.setItem('rules', JSON.stringify(rules));
@@ -77,6 +97,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     const toggleAccountConnection = (platform: 'google' | 'meta') => {
         setConnectedAccounts(prev => ({ ...prev, [platform]: !prev[platform] }));
+        if (connectedAccounts[platform]) {
+            setTokens(prev => ({ ...prev, [platform]: null }));
+        }
+    };
+
+    const setToken = (platform: 'google' | 'meta', token: string | null) => {
+        setTokens(prev => ({ ...prev, [platform]: token }));
+        if (token) {
+            setConnectedAccounts(prev => ({ ...prev, [platform]: true }));
+        }
     };
 
     const addRule = (ruleData: Omit<Rule, 'id' | 'isActive'>) => {
@@ -108,10 +138,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         <AppContext.Provider value={{
             campaigns,
             connectedAccounts,
+            tokens,
             rules,
             loading,
             toggleCampaignStatus,
             toggleAccountConnection,
+            setToken,
             addRule,
             toggleRuleStatus,
             deleteRule,
