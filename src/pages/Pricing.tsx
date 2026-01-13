@@ -1,33 +1,93 @@
 import { ContentPage } from '../layouts/ContentPage';
+import { useTranslation } from 'react-i18next';
+import { getPriceForRegion, formatPrice } from '../services/pricingService';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import classes from './Subscription.module.css'; // Reusing some card styles
+import { CheckCircle2 } from 'lucide-react';
 
 export function Pricing() {
+    const { i18n, t } = useTranslation();
+    const [loading, setLoading] = useState(false);
+    const priceConfig = getPriceForRegion(i18n.language);
+
+    const handleSubscribe = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    priceId: 'price_placeholder', // User needs to replace this
+                    successUrl: `${window.location.origin}/dashboard/subscription?success=true`,
+                    cancelUrl: `${window.location.origin}/pricing?canceled=true`
+                })
+            });
+
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                toast.error(data.error || 'Failed to start checkout');
+            }
+        } catch (error) {
+            toast.error('Network error. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <ContentPage
-            title="Pricing"
-            subtitle="Simple, transparent pricing for everyone"
+            title={t('pricing.title', 'Simple, One-Plan Pricing')}
+            subtitle={t('pricing.subtitle', 'Everything you need for one flat monthly fee')}
         >
-            <h2>Pro Plan - $49/month</h2>
-            <p>Everything you need to manage and optimize your ad campaigns:</p>
-            <ul>
-                <li>Unlimited campaigns</li>
-                <li>Unlimited ad accounts</li>
-                <li>AI-powered suggestions</li>
-                <li>Smart Rules automation</li>
-                <li>Real-time analytics</li>
-                <li>Creative library</li>
-                <li>Competitor analysis</li>
-                <li>Priority support</li>
-                <li>White label (Agency mode)</li>
-            </ul>
+            <div style={{ maxWidth: '600px', margin: '40px auto' }}>
+                <div className={classes.planCard} style={{ textAlign: 'center' }}>
+                    <div className={classes.badge}>Most Popular</div>
+                    <h2 style={{ fontSize: '2rem', marginBottom: '8px' }}>Pro Plan</h2>
+                    <div className={classes.price} style={{ fontSize: '3rem', margin: '20px 0' }}>
+                        {formatPrice(priceConfig)}
+                        <span style={{ fontSize: '1rem', color: 'var(--color-text-secondary)' }}>/month</span>
+                    </div>
 
-            <h2>No Hidden Fees</h2>
-            <p>That's it. No per-account fees, no feature gates, no surprises. You get everything for one simple price.</p>
+                    <div style={{ textAlign: 'left', margin: '30px 0' }}>
+                        {[
+                            'Unlimited campaigns',
+                            'Meta & Google Ads Integration',
+                            'AI-powered suggestions',
+                            'Smart Rules automation',
+                            'Real-time analytics',
+                            'Creative library',
+                            'Agency (White label) mode',
+                            'Priority support'
+                        ].map((feature, i) => (
+                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '12px', alignItems: 'center' }}>
+                                <CheckCircle2 size={20} color="#10B981" />
+                                <span>{feature}</span>
+                            </div>
+                        ))}
+                    </div>
 
-            <h2>30-Day Money-Back Guarantee</h2>
-            <p>Try ySale risk-free. If you're not happy within the first 30 days, we'll give you a full refund.</p>
+                    <button
+                        onClick={handleSubscribe}
+                        disabled={loading}
+                        className={classes.manageBtn}
+                        style={{ width: '100%', padding: '16px', fontSize: '1.1rem' }}
+                    >
+                        {loading ? 'Redirecting...' : 'Subscribe Now'}
+                    </button>
 
-            <h2>Enterprise</h2>
-            <p>Need custom integrations or dedicated support? Contact us at enterprise@ysale.com for custom pricing.</p>
+                    <p style={{ marginTop: '20px', fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
+                        30-day money-back guarantee. Cancel anytime.
+                    </p>
+                </div>
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '60px' }}>
+                <h3>No Hidden Fees</h3>
+                <p>No per-account fees, no feature gates, no surprises. You get everything.</p>
+            </div>
         </ContentPage>
     );
 }

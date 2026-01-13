@@ -15,6 +15,7 @@ interface AppContextType {
     campaigns: Campaign[];
     connectedAccounts: { google: boolean; meta: boolean };
     tokens: { google: string | null; meta: string | null };
+    subscription: { active: boolean; plan: string; expiresAt: string | null };
     rules: Rule[];
     loading: boolean;
     toggleCampaignStatus: (id: string) => void;
@@ -32,19 +33,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const [campaigns, setCampaigns] = useState<Campaign[]>([]);
     const [connectedAccounts, setConnectedAccounts] = useState({ google: false, meta: false });
     const [tokens, setTokens] = useState<{ google: string | null; meta: string | null }>({ google: null, meta: null });
+    const [subscription, setSubscription] = useState({ active: false, plan: 'Free', expiresAt: null });
     const [rules, setRules] = useState<Rule[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Initial Load & Persistence
     useEffect(() => {
         const savedAccounts = localStorage.getItem('connectedAccounts');
-        const savedTokens = localStorage.getItem('api_tokens');
+        const savedTokens = localStorage.getItem('tokens');
         const savedRules = localStorage.getItem('rules');
+        const savedSubscription = localStorage.getItem('subscription');
         const savedCampaigns = localStorage.getItem('campaigns');
 
         if (savedAccounts) setConnectedAccounts(JSON.parse(savedAccounts));
         if (savedTokens) setTokens(JSON.parse(savedTokens));
         if (savedRules) setRules(JSON.parse(savedRules));
+        if (savedSubscription) setSubscription(JSON.parse(savedSubscription));
 
         if (savedCampaigns) {
             setCampaigns(JSON.parse(savedCampaigns));
@@ -71,21 +75,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     // Save to LocalStorage on change
     useEffect(() => {
         localStorage.setItem('connectedAccounts', JSON.stringify(connectedAccounts));
-    }, [connectedAccounts]);
-
-    useEffect(() => {
-        localStorage.setItem('api_tokens', JSON.stringify(tokens));
-    }, [tokens]);
-
-    useEffect(() => {
+        localStorage.setItem('tokens', JSON.stringify(tokens));
+        localStorage.setItem('subscription', JSON.stringify(subscription));
+        localStorage.setItem('campaigns', JSON.stringify(campaigns));
         localStorage.setItem('rules', JSON.stringify(rules));
-    }, [rules]);
-
-    useEffect(() => {
-        if (campaigns.length > 0) {
-            localStorage.setItem('campaigns', JSON.stringify(campaigns));
-        }
-    }, [campaigns]);
+    }, [connectedAccounts, tokens, subscription, campaigns, rules]);
 
     const toggleCampaignStatus = (id: string) => {
         setCampaigns(prev => prev.map(c =>
@@ -139,6 +133,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             campaigns,
             connectedAccounts,
             tokens,
+            subscription,
             rules,
             loading,
             toggleCampaignStatus,
