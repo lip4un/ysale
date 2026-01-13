@@ -99,6 +99,23 @@
     color: var(--color-text-primary);
 }
 
+.labelRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgotLink {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgotLink:hover {
+    text-decoration: underline;
+}
+
 .inputGroup input {
     padding: 10px;
     border: 1px solid var(--color-border);
@@ -147,4 +164,25 @@
     color: var(--color-text-secondary);
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+.successState {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.successIcon {
+    width: 64px;
+    height: 64px;
+    background: var(--color-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.successState p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
 }

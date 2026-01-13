@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Landing } from './pages/Landing';
 import { Login } from './pages/Login';
+import { Signup } from './pages/Signup';
+import { ForgotPassword } from './pages/ForgotPassword';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardHome } from './pages/DashboardHome';
 import { Campaigns } from './pages/Campaigns';
@@ -35,6 +37,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Footer Pages */}
         <Route path="/features" element={<Features />} />
