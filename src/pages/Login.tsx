@@ -1,14 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
-import classes from './Login.module.css';
 import { BarChart3 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { GoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
+import classes from './Login.module.css';
 
 export function Login() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // Mock login logic
+    const handleLogin = (credentials?: any) => {
+        if (credentials) {
+            console.log('Google Auth Success:', credentials);
+            toast.success('Signed in with Google!');
+        }
         navigate('/dashboard');
     };
 
@@ -23,10 +28,20 @@ export function Login() {
                     <p>Welcome back! Please sign in to continue.</p>
                 </div>
 
-                <button className={classes.googleBtn} onClick={handleLogin}>
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width={20} />
-                    <span>Sign in with Google</span>
-                </button>
+                <div className={classes.googleWrapper}>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            handleLogin(credentialResponse);
+                        }}
+                        onError={() => {
+                            toast.error('Google Sign In failed');
+                        }}
+                        useOneTap
+                        shape="pill"
+                        text="signin_with"
+                        width="100%"
+                    />
+                </div>
 
                 <div className={classes.divider}>
                     <span>or</span>

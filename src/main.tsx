@@ -8,14 +8,20 @@ import { WhiteLabelProvider } from './context/WhiteLabelContext'
 
 import { AppProvider } from './context/AppContext'
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <WhiteLabelProvider>
-      <ThemeProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </ThemeProvider>
-    </WhiteLabelProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <WhiteLabelProvider>
+        <ThemeProvider>
+          <AppProvider>
+            <App />
+          </AppProvider>
+        </ThemeProvider>
+      </WhiteLabelProvider>
+    </GoogleOAuthProvider>
   </React.StrictMode>,
 )

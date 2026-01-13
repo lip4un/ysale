@@ -42,23 +42,15 @@
     color: var(--color-text-secondary);
 }
 
-.googleBtn {
+.googleWrapper {
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
-    background: white;
-    border: 1px solid var(--color-border);
-    padding: 12px;
-    border-radius: 6px;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    transition: background-color 0.2s;
+    margin-bottom: 24px;
 }
 
-.googleBtn:hover {
-    background-color: var(--color-bg);
+.googleWrapper>div {
+    width: 100% !important;
 }
 
 .divider {

@@ -3,19 +3,22 @@ import classes from './Login.module.css';
 import { BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { GoogleLogin } from '@react-oauth/google';
+
 export function Signup() {
     const navigate = useNavigate();
 
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock signup logic
         toast.success('Account created successfully!');
         navigate('/dashboard');
     };
 
-    const handleGoogleSignup = () => {
-        // Mock google auth
-        toast.success('Signed up with Google!');
+    const handleGoogleAuth = (credentials?: any) => {
+        if (credentials) {
+            console.log('Google Auth Success:', credentials);
+            toast.success('Signed up with Google!');
+        }
         navigate('/dashboard');
     };
 
@@ -30,10 +33,19 @@ export function Signup() {
                     <p>Start your 14-day free trial today.</p>
                 </div>
 
-                <button className={classes.googleBtn} onClick={handleGoogleSignup}>
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width={20} />
-                    <span>Sign up with Google</span>
-                </button>
+                <div className={classes.googleWrapper}>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            handleGoogleAuth(credentialResponse);
+                        }}
+                        onError={() => {
+                            toast.error('Google Sign Up failed');
+                        }}
+                        shape="pill"
+                        text="signup_with"
+                        width="100%"
+                    />
+                </div>
 
                 <div className={classes.divider}>
                     <span>or</span>
