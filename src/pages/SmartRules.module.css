@@ -1,0 +1,291 @@
+.wrapper {
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--color-text-secondary);
+}
+
+.createBtn {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.createBtn:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+/* BUILDER */
+.builderCard {
+    background: var(--color-surface);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.builderHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.builderHeader h3 {
+    font-size: 1.25rem;
+}
+
+.betaTag {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.formGroup {
+    margin-bottom: 24px;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.logicRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--color-surface-hover);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    border: 1px solid var(--color-border);
+}
+
+.logicBlock {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.logicLabel {
+    font-weight: 800;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.logicRow select,
+.logicRow input {
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.logicArrow {
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+}
+
+.builderActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancelBtn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.saveBtn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* RULES LIST */
+.rulesGrid {
+    display: grid;
+    gap: 16px;
+}
+
+.ruleCard {
+    background: var(--color-surface);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+}
+
+.ruleCard.inactive {
+    opacity: 0.6;
+    background: var(--color-bg);
+}
+
+.cardHeader {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.iconBox {
+    width: 40px;
+    height: 40px;
+    background: var(--color-surface-hover);
+    color: var(--color-success);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ruleInfo {
+    flex: 1;
+}
+
+.ruleInfo h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.logicSummary {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.logicSummary strong {
+    color: var(--color-text-primary);
+    background: var(--color-surface-hover);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.activeBtn {
+    background: #DCFCE7;
+    color: #16A34A;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inactiveBtn {
+    background: #E2E8F0;
+    color: #64748B;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+    margin-top: auto;
+}
+
+.frequency {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.deleteBtn {
+    background: transparent;
+    color: #EF4444;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.deleteBtn:hover {
+    background: #FEF2F2;
+    border-radius: 4px;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--color-text-secondary);
+}
+
+.emptyIcon {
+    color: #CBD5E1;
+    margin-bottom: 16px;
+}

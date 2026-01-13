@@ -1,0 +1,138 @@
+.wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+.backLink:hover {
+    color: var(--color-primary);
+}
+
+.header {
+    margin-bottom: 32px;
+}
+
+.titleGroup {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    color: var(--color-text-primary);
+}
+
+.badge {
+    background-color: #ECFDF5;
+    color: #059669;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.header p {
+    color: var(--color-text-secondary);
+}
+
+.kpiGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.kpiCard {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.iconBox {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpiCard span {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+
+.kpiCard strong {
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+}
+
+.chartSection {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 32px;
+}
+
+.chartSection h3 {
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    color: var(--color-text-primary);
+}
+
+.detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.detailsCard {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+}
+
+.detailsCard h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    color: var(--color-text-primary);
+}
+
+.detailsCard ul {
+    list-style: none;
+}
+
+.detailsCard li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-bg);
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-text-secondary);
+}
+
+.detailsCard li:last-child {
+    border-bottom: none;
+}
+
+.detailsCard strong {
+    color: var(--color-text-primary);
+}

@@ -1,0 +1,65 @@
+{
+    "app": {
+        "name": "ySale"
+    },
+    "nav": {
+        "resources": "Resources",
+        "howItWorks": "How it Works",
+        "platforms": "Platforms",
+        "login": "Login",
+        "getStarted": "Get Started",
+        "dashboard": "Dashboard",
+        "campaigns": "Campaigns",
+        "competitors": "Ad Spy",
+        "creatives": "Creatives",
+        "audiences": "Audiences",
+        "ai_analysis": "AI Analysis",
+        "recommendations": "Recommendations",
+        "smart_rules": "Smart Rules",
+        "connect": "Connect Accounts",
+        "billing": "Billing",
+        "profile": "Profile",
+        "logout": "Logout"
+    },
+    "home": {
+        "hero": {
+            "title": "Optimize your <1>Meta Ads</1> and <3>Google Ads</3> campaigns",
+            "subtitle": "Automated analysis, interactive charts, and smart recommendations to maximize your ad campaigns' ROI.",
+            "cta": "Subscribe Now",
+            "features": "See Features"
+        },
+        "features": {
+            "title": "Everything you need",
+            "subtitle": "Powerful tools to boost your performance",
+            "items": {
+                "analytics": {
+                    "title": "Real-time Analytics",
+                    "desc": "Track performance as it happens."
+                },
+                "reports": {
+                    "title": "Automated Reports",
+                    "desc": "Save time with scheduled reporting."
+                },
+                "ai": {
+                    "title": "AI Suggestions",
+                    "desc": "Get smart optimization tips."
+                }
+            }
+        },
+        "pricing": {
+            "title": "Simple Pricing",
+            "subtitle": "Choose the plan that fits",
+            "monthly": "/month"
+        }
+    },
+    "dashboard": {
+        "welcome": "Dashboard",
+        "subtitle": "Overview of your campaigns",
+        "kpi": {
+            "impressions": "Total Impressions",
+            "clicks": "Total Clicks",
+            "conversions": "Total Conversions",
+            "roas": "Average ROAS"
+        }
+    }
+}

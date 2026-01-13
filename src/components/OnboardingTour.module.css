@@ -1,0 +1,123 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+    /* Allow clicking through? No, blocking interaction for focus */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spotlightLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.card {
+    position: relative;
+    background: white;
+    width: 360px;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+    animation: slideUp 0.3s ease-out;
+    z-index: 10000;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.stepCount {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.closeBtn:hover {
+    color: var(--color-text-primary);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+}
+
+.card p {
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skipBtn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.skipBtn:hover {
+    text-decoration: underline;
+}
+
+.nextBtn {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.nextBtn:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}

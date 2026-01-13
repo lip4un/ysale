@@ -1,0 +1,120 @@
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--color-text-secondary);
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.platformHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.googleIcon,
+.metaIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.platformInfo h3 {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    color: var(--color-text-primary);
+}
+
+.platformInfo p {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.connectedStatus,
+.disconnectedStatus {
+    margin-left: 24px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.connectedStatus {
+    background-color: var(--color-surface-hover);
+    color: var(--color-success);
+    border: 1px solid var(--color-border);
+}
+
+.disconnectedStatus {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}
+
+.connectBtn {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.connectBtn:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.disconnectBtn {
+    background-color: var(--color-surface);
+    color: var(--color-error);
+    border: 1px solid var(--color-border);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.disconnectBtn:hover {
+    background-color: #FEF2F2;
+}

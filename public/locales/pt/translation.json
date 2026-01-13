@@ -1,0 +1,65 @@
+{
+    "app": {
+        "name": "ySale"
+    },
+    "nav": {
+        "resources": "Recursos",
+        "howItWorks": "Como Funciona",
+        "platforms": "Plataformas",
+        "login": "Entrar",
+        "getStarted": "Começar",
+        "dashboard": "Dashboard",
+        "campaigns": "Campanhas",
+        "competitors": "Espionar",
+        "creatives": "Criativos",
+        "audiences": "Públicos",
+        "ai_analysis": "Análise com IA",
+        "recommendations": "Recomendações",
+        "smart_rules": "Smart Rules",
+        "connect": "Conectar Contas",
+        "billing": "Assinatura",
+        "profile": "Perfil",
+        "logout": "Sair"
+    },
+    "home": {
+        "hero": {
+            "title": "Otimize suas campanhas de <1>Meta Ads</1> e <3>Google Ads</3>",
+            "subtitle": "Análise automatizada, gráficos interativos e recomendações inteligentes para maximizar o ROI das suas campanhas de anúncios.",
+            "cta": "Assinar Agora",
+            "features": "Ver Recursos"
+        },
+        "features": {
+            "title": "Tudo o que você precisa",
+            "subtitle": "Ferramentas poderosas para impulsionar sua performance",
+            "items": {
+                "analytics": {
+                    "title": "Analytics em Tempo Real",
+                    "desc": "Acompanhe a performance enquanto ela acontece."
+                },
+                "reports": {
+                    "title": "Relatórios Automatizados",
+                    "desc": "Economize tempo com relatórios agendados."
+                },
+                "ai": {
+                    "title": "Sugestões de IA",
+                    "desc": "Receba dicas inteligentes de otimização."
+                }
+            }
+        },
+        "pricing": {
+            "title": "Preço Simples",
+            "subtitle": "Escolha o plano ideal",
+            "monthly": "/mês"
+        }
+    },
+    "dashboard": {
+        "welcome": "Dashboard",
+        "subtitle": "Visão geral das suas campanhas",
+        "kpi": {
+            "impressions": "Impressões Totais",
+            "clicks": "Cliques Totais",
+            "conversions": "Conversões Totais",
+            "roas": "ROAS Médio"
+        }
+    }
+}

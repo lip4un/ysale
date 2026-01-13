@@ -1,0 +1,75 @@
+:root {
+  /* Clean Light Theme (Monochrome) */
+  --color-primary: #181181B;
+  /* Original typo from previous dev preserved? No, let's fix to clean monochrome */
+  --color-primary: #000000;
+  --color-primary-hover: #27272a;
+  --color-secondary: #71717a;
+  --color-secondary-hover: #52525b;
+
+  /* Neutral Surface Colors */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-border: #e2e8f0;
+
+  /* Status Colors (Subtle but distinct) */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #6366f1;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* DARK THEME Overrides */
+[data-theme="dark"] {
+  --color-primary: #ffffff;
+  --color-primary-hover: #e2e8f0;
+  --color-secondary: #a1a1aa;
+  --color-secondary-hover: #d4d4d8;
+
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-surface-hover: #171717;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94a3b8;
+  --color-border: #1e293b;
+
+  --color-success: #10b981;
+  --color-error: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Utilities */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

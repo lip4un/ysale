@@ -1,0 +1,133 @@
+.footer {
+    background: #09090B;
+    border-top: 1px solid #27272A;
+    padding: 80px 0 40px;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(4, 1fr);
+    gap: 48px;
+    margin-bottom: 60px;
+}
+
+@media (max-width: 968px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+/* Brand Column */
+.brandColumn {
+    max-width: 350px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    color: #FAFAFA;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.tagline {
+    color: #A1A1AA;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.socials {
+    display: flex;
+    gap: 12px;
+}
+
+.socialIcon {
+    width: 40px;
+    height: 40px;
+    background: #18181B;
+    border: 1px solid #27272A;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A1A1AA;
+    transition: all 0.3s ease;
+}
+
+.socialIcon:hover {
+    background: #27272A;
+    border-color: #52525B;
+    color: #FAFAFA;
+    transform: translateY(-2px);
+}
+
+/* Link Columns */
+.linkColumn h4 {
+    color: #FAFAFA;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.linkColumn ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.linkColumn li {
+    margin-bottom: 12px;
+}
+
+.linkColumn a {
+    color: #A1A1AA;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.linkColumn a:hover {
+    color: #FAFAFA;
+    transform: translateX(4px);
+}
+
+/* Bottom Section */
+.bottom {
+    padding-top: 40px;
+    border-top: 1px solid #27272A;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #71717A;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+    .bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+}
+
+.bottom p {
+    margin: 0;
+}

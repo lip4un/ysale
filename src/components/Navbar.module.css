@@ -1,0 +1,95 @@
+.navbar {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+}
+
+.logoIcon {
+    background-color: #3b5998;
+    /* Fallback/Brand color */
+    background: linear-gradient(135deg, #3b5998 0%, #2563EB 100%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.links {
+    display: flex;
+    gap: 32px;
+}
+
+.links a {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    transition: color 0.2s;
+}
+
+.links a:hover {
+    color: var(--color-primary);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.langSelector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+}
+
+.select {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.loginBtn {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.loginBtn:hover {
+    background-color: var(--color-primary-hover);
+}
+
+@media (max-width: 768px) {
+    .links {
+        display: none;
+    }
+}
