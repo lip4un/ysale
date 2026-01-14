@@ -154,11 +154,6 @@
     color: var(--color-text-primary);
 }
 
-[data-theme="dark"] .tvMode {
-    background-color: #000000;
-    color: #ffffff;
-}
-
 .tvMode .header h1,
 .tvMode .header p {
     color: #ffffff;
@@ -169,13 +164,6 @@
     background-color: var(--color-surface);
     border-color: var(--color-border);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] .tvMode .kpiCard,
-[data-theme="dark"] .tvMode .chartCard {
-    background-color: #0a0a0a;
-    border-color: #1e293b;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
 .tvMode .kpiCard strong {

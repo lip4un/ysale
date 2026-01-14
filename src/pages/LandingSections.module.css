@@ -6,11 +6,6 @@
     border-bottom: 1px solid var(--color-border);
 }
 
-[data-theme="dark"] .trustedBy {
-    background: #0A0A0B;
-    border-bottom: 1px solid #27272A;
-}
-
 .trustedBy p {
     color: #A1A1AA;
     font-size: 0.85rem;
@@ -41,15 +36,6 @@
     transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .logo {
-    background: #18181B;
-    border-color: #27272A;
-}
-
-[data-theme="dark"] .logo {
-    color: #71717A;
-}
-
 .logo:hover {
     opacity: 1;
     transform: translateY(-4px);
@@ -61,10 +47,6 @@
 .howItWorks {
     padding: 100px 0;
     background: var(--color-bg);
-}
-
-[data-theme="dark"] .howItWorks {
-    background: #18181B;
 }
 
 .stepsGrid {
@@ -83,11 +65,6 @@
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-}
-
-[data-theme="dark"] .stepCard {
-    background: #0A0A0B;
-    border-color: #27272A;
 }
 
 .stepCard::before {
@@ -147,46 +124,29 @@
     color: var(--color-text-primary);
 }
 
-[data-theme="dark"] .stepCard h3 {
+.stepCard p {
     color: var(--color-text-secondary);
     line-height: 1.6;
 }
 
-[data-theme="dark"] .stepCard p {
-    color: #A1A1AA
-
-.stepCard p {
-    color: #A1A1AA;
-    line-height: 1.6;
-}
-var(--color-bg);
-}
-
-[data-theme="dark"] .testimonials {
-    background: 
 /* TESTIMONIALS SECTION */
 .testimonials {
     padding: 100px 0;
-    background: #0A0A0B;
+    background: var(--color-bg);
 }
 
-.testimonialGridvar(--color-surface);
+.testimonialGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+    margin-top: 40px;
+}
+
+.testimonialCard {
+    background: var(--color-surface);
     padding: 40px;
     border-radius: 16px;
     border: 1px solid var(--color-border);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-[data-theme="dark"] .testimonialCard {
-    background: #18181B;
-    border-color: #27272A
-
-.testimonialCard {
-    background: #18181B;
-    padding: 40px;
-    border-radius: 16px;
-    border: 1px solid #27272A;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -199,14 +159,10 @@ var(--color-bg);
     font-size: 6rem;
     color: #52525B;
     opacity: 0.2;
-    font-favar(--color-text-primary);
-    line-height: 1.8;
-    position: relative;
-    z-index: 1;
+    font-family: Georgia, serif;
 }
 
-[data-theme="dark"] .testimonialCard p {
-    color: #FAFAFArd:hover {
+.testimonialCard:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     border-color: #52525B;
@@ -216,7 +172,7 @@ var(--color-bg);
     font-size: 1.05rem;
     font-style: italic;
     margin-bottom: 32px;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
     line-height: 1.8;
     position: relative;
     z-index: 1;
@@ -233,23 +189,15 @@ var(--color-bg);
     height: 48px;
     background: linear-gradient(135deg, #27272A, #3F3F46);
     color: white;
-    border-var(--color-text-primary);
-    margin-bottom: 2px;
-}
-
-[data-theme="dark"] .userProfile strong {
-    color: #FAFAFA
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 1.1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     border: 2px solid #52525B;
-}var(--color-bg);
 }
-
-[data-theme="dark"] .faq {
-    background: 
 
 .userProfile strong {
     display: block;
@@ -261,18 +209,13 @@ var(--color-bg);
 .userProfile span {
     font-size: 0.85rem;
     color: #A1A1AA;
-}var(--color-border);
-    border-radius: 16px;
-    background: var(--color-surface);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
 }
 
-[data-theme="dark"] .faqItem {
-    background: linear-gradient(135deg, #09090B 0%, #0A0A0B 100%);
-    border-color: #27272A
+/* FAQ SECTION */
+.faq {
+    padding: 100px 0;
+    background: var(--color-bg);
+}
 
 .faqGrid {
     max-width: 900px;
@@ -283,9 +226,9 @@ var(--color-bg);
 
 .faqItem {
     padding: 40px;
-    border: 1px solid #27272A;
+    border: 1px solid var(--color-border);
     border-radius: 16px;
-    background: linear-gradient(135deg, #09090B 0%, #0A0A0B 100%);
+    background: var(--color-surface);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
@@ -296,16 +239,12 @@ var(--color-bg);
     content: '';
     position: absolute;
     top: 0;
-    left: 0var(--color-text-primary);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-weight: 700;
-    line-height: 1.4;
-}
-
-[data-theme="dark"] .faqItem h4 {
-    color: #FAFAFAsform 0.4s ease;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #52525B, #71717A);
+    transform: scaleY(0);
+    transition: transform 0.4s ease;
 }
 
 .faqItem:hover::before {
@@ -322,35 +261,26 @@ var(--color-bg);
 .faqItem h4 {
     margin-bottom: 16px;
     font-size: 1.25rem;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
     display: flex;
     align-items: center;
     gap: 16px;
     font-weight: 700;
-    line-hevar(--color-text-secondary);
-    line-height: 1.8;
-    padding-left: 48px;
-    font-size: 1rem;
+    line-height: 1.4;
 }
 
-[data-theme="dark"] .faqItem p {
-    color: #A1A1AA {
+.faqItem h4::before {
     content: '?';
     width: 32px;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-bg);
-    text-align: center;
-    color: var(--color-text-primary);
-    position: relative;
-    overflow: hidden;
-}
-
-[data-theme="dark"] .finalCta {
-    background: linear-gradient(135deg, #09090B 0%, #000000 100%);
-    color: whitepx;
+    background: linear-gradient(135deg, #27272A, #3F3F46);
+    color: #A1A1AA;
+    font-weight: 900;
+    font-size: 1.1rem;
+    border-radius: 8px;
     flex-shrink: 0;
     transition: all 0.3s ease;
 }
@@ -362,7 +292,7 @@ var(--color-bg);
 }
 
 .faqItem p {
-    color: #A1A1AA;
+    color: var(--color-text-secondary);
     line-height: 1.8;
     padding-left: 48px;
     font-size: 1rem;
@@ -371,9 +301,9 @@ var(--color-bg);
 /* FINAL CTA SECTION */
 .finalCta {
     padding: 120px 0;
-    background: linear-gradient(135deg, #09090B 0%, #000000 100%);
+    background: var(--color-bg);
     text-align: center;
-    color: white;
+    color: var(--color-text-primary);
     position: relative;
     overflow: hidden;
 }

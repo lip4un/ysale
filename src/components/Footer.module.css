@@ -70,23 +70,11 @@
     transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .socialIcon {
-    background: #18181B;
-    border-color: #27272A;
-    color: #A1A1AA;
-}
-
 .socialIcon:hover {
     background: var(--color-surface-hover);
     border-color: var(--color-text-primary);
     color: var(--color-text-primary);
     transform: translateY(-2px);
-}
-
-[data-theme="dark"] .socialIcon:hover {
-    background: #27272A;
-    border-color: #52525B;
-    color: #FAFAFA;
 }
 
 /* Link Columns */
