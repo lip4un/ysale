@@ -1,11 +1,9 @@
 :root {
   /* Clean Light Theme (Monochrome) */
-  --color-primary: #181181B;
-  /* Original typo from previous dev preserved? No, let's fix to clean monochrome */
-  --color-primary: #000000;
-  --color-primary-hover: #27272a;
-  --color-secondary: #71717a;
-  --color-secondary-hover: #52525b;
+  --color-primary: #1a1a1a;
+  --color-primary-hover: #3a3a3a;
+  --color-secondary: #666666;
+  --color-secondary-hover: #4a4a4a;
 
   /* Neutral Surface Colors */
   --color-bg: #f8fafc;
