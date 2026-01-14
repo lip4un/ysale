@@ -1,4 +1,5 @@
 import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { getPriceForRegion, formatPrice } from '../services/pricingService';
 import { ArrowRight, BarChart2, Zap, Brain, CheckCircle2, Sparkles } from 'lucide-react';
@@ -8,9 +9,15 @@ import { Footer } from '../components/Footer';
 
 export function Landing() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
 
     // Get price based on current language/locale
     const price = getPriceForRegion(i18n.language);
+
+    const scrollToFeatures = () => {
+        const section = document.getElementById('features');
+        section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
 
     const features = [
         {
@@ -50,10 +57,18 @@ export function Landing() {
                         <p className={classes.heroSubtitle}>{t('home.hero.subtitle')}</p>
 
                         <div className={classes.heroActions}>
-                            <button className={classes.primaryBtn}>
+                            <button
+                                className={classes.primaryBtn}
+                                onClick={() => navigate('/signup')}
+                            >
                                 {t('home.hero.cta')} <ArrowRight size={18} />
                             </button>
-                            <button className={classes.secondaryBtn}>{t('home.hero.features')}</button>
+                            <button
+                                className={classes.secondaryBtn}
+                                onClick={scrollToFeatures}
+                            >
+                                {t('home.hero.features')}
+                            </button>
                         </div>
 
                         <div className={classes.heroVisual}>
@@ -128,7 +143,10 @@ export function Landing() {
                                 <li><CheckCircle2 size={16} color="#10B981" /> 24/7 Support</li>
                             </ul>
 
-                            <button className={classes.subscribeBtn}>
+                            <button
+                                className={classes.subscribeBtn}
+                                onClick={() => navigate('/pricing')}
+                            >
                                 {t('home.hero.cta')}
                             </button>
                         </div>
