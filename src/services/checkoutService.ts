@@ -6,22 +6,79 @@ export interface CheckoutPayload {
 
 const CHECKOUT_INTENT_KEY = 'ysale_checkout_intent';
 
+const getAvailableStorages = (): Storage[] => {
+    const storages: Storage[] = [];
+    if (typeof window === 'undefined') {
+        return storages;
+    }
+
+    try {
+        storages.push(window.sessionStorage);
+    } catch (error) {
+        console.warn('SessionStorage unavailable for checkout intent', error);
+    }
+
+    try {
+        storages.push(window.localStorage);
+    } catch (error) {
+        console.warn('LocalStorage unavailable for checkout intent', error);
+    }
+
+    return storages;
+};
+
+const persistIntent = (value: string): void => {
+    for (const storage of getAvailableStorages()) {
+        try {
+            storage.setItem(CHECKOUT_INTENT_KEY, value);
+        } catch (error) {
+            console.warn('Failed to persist checkout intent', error);
+        }
+    }
+};
+
+const readIntent = (): string | null => {
+    for (const storage of getAvailableStorages()) {
+        try {
+            const value = storage.getItem(CHECKOUT_INTENT_KEY);
+            if (value) {
+                return value;
+            }
+        } catch (error) {
+            console.warn('Failed to read checkout intent', error);
+        }
+    }
+    return null;
+};
+
+const clearIntent = (): void => {
+    for (const storage of getAvailableStorages()) {
+        try {
+            storage.removeItem(CHECKOUT_INTENT_KEY);
+        } catch (error) {
+            console.warn('Failed to clear checkout intent', error);
+        }
+    }
+};
+
 export const storeCheckoutIntent = (payload: CheckoutPayload): void => {
     if (typeof window === 'undefined') {
         return;
     }
-    window.sessionStorage.setItem(CHECKOUT_INTENT_KEY, JSON.stringify(payload));
+    persistIntent(JSON.stringify(payload));
 };
 
 export const consumeCheckoutIntent = (): CheckoutPayload | null => {
     if (typeof window === 'undefined') {
         return null;
     }
-    const raw = window.sessionStorage.getItem(CHECKOUT_INTENT_KEY);
+
+    const raw = readIntent();
     if (!raw) {
         return null;
     }
-    window.sessionStorage.removeItem(CHECKOUT_INTENT_KEY);
+
+    clearIntent();
     try {
         return JSON.parse(raw) as CheckoutPayload;
     } catch (error) {
@@ -34,7 +91,7 @@ export const hasCheckoutIntent = (): boolean => {
     if (typeof window === 'undefined') {
         return false;
     }
-    return window.sessionStorage.getItem(CHECKOUT_INTENT_KEY) !== null;
+    return readIntent() !== null;
 };
 
 interface CheckoutResponse {
@@ -70,7 +127,7 @@ export const clearCheckoutIntent = (): void => {
     if (typeof window === 'undefined') {
         return;
     }
-    window.sessionStorage.removeItem(CHECKOUT_INTENT_KEY);
+    clearIntent();
 };
 
 export const getCheckoutIntentKey = (): string => CHECKOUT_INTENT_KEY;
