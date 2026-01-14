@@ -15,10 +15,16 @@ export function Pricing() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const priceConfig = getPriceForRegion(i18n.language);
+    const priceId = import.meta.env.VITE_STRIPE_PRICE_ID ?? 'price_1Snc6wHBYWcw0wGWtEiqCOc1';
 
     const handleSubscribe = async () => {
+        if (!priceId) {
+            toast.error('Stripe price ID is not configured.');
+            return;
+        }
+
         const payload: CheckoutPayload = {
-            priceId: 'price_1QkVj2LLBW0D1DzAX9NXqRIB', // Pro Plan price ID
+            priceId,
             successUrl: `${window.location.origin}/dashboard/subscription?success=true`,
             cancelUrl: `${window.location.origin}/pricing?canceled=true`
         };

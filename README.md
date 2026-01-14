@@ -26,4 +26,5 @@ ySale is a comprehensive platform for managing and optimizing your Meta and Goog
 Add the following variables to your `.env` (or hosting dashboard) to enable checkout:
 
 - `VITE_STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key used by the client-side Checkout fallback.
+- `VITE_STRIPE_PRICE_ID`: The active Stripe price ID for the subscription plan shown on the pricing page.
 - `VITE_CHECKOUT_ENDPOINT` (optional): Absolute URL for the backend endpoint that creates Checkout sessions. Defaults to `/api/checkout` when omitted.
