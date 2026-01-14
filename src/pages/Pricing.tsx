@@ -18,19 +18,26 @@ export function Pricing() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    priceId: 'price_placeholder', // User needs to replace this
+                    priceId: 'price_1QkVj2LLBW0D1DzAX9NXqRIB', // Pro Plan price ID
                     successUrl: `${window.location.origin}/dashboard/subscription?success=true`,
                     cancelUrl: `${window.location.origin}/pricing?canceled=true`
                 })
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
             if (data.url) {
                 window.location.href = data.url;
+            } else if (data.error) {
+                toast.error(data.error);
             } else {
-                toast.error(data.error || 'Failed to start checkout');
+                toast.error('Failed to start checkout');
             }
         } catch (error) {
+            console.error('Checkout error:', error);
             toast.error('Network error. Please try again.');
         } finally {
             setLoading(false);

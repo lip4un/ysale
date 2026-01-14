@@ -74,7 +74,13 @@ export function Subscription() {
                         </div>
                     </div>
 
-                    <button className={classes.manageBtn}>
+                    <button 
+                        className={classes.manageBtn}
+                        onClick={() => {
+                            // Redireciona para o portal de gerenciamento do Stripe
+                            window.location.href = 'https://billing.stripe.com/p/login/1QkVj2LLBW0D1DzA00';
+                        }}
+                    >
                         <ExternalLink size={18} />
                         Gerenciar no Stripe
                     </button>
