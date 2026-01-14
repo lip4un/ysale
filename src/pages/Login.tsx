@@ -4,16 +4,43 @@ import { useTranslation } from 'react-i18next';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'sonner';
 import classes from './Login.module.css';
+import { markUserAuthenticated } from '../services/authService';
+import { consumeCheckoutIntent, createCheckoutSession } from '../services/checkoutService';
 
 export function Login() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const handleLogin = (credentials?: any) => {
+    const resumeCheckoutIfPending = async (): Promise<boolean> => {
+        const pendingPayload = consumeCheckoutIntent();
+        if (!pendingPayload) {
+            return false;
+        }
+
+        toast.success('Login successful! Redirecting you to checkout...');
+        const result = await createCheckoutSession(pendingPayload);
+        if (result.url) {
+            window.location.href = result.url;
+            return true;
+        }
+
+        toast.error(result.error ?? 'Failed to start checkout. Please try again.');
+        navigate('/pricing');
+        return true;
+    };
+
+    const handleLogin = async (credentials?: any) => {
         if (credentials) {
             console.log('Google Auth Success:', credentials);
             toast.success('Signed in with Google!');
         }
+
+        markUserAuthenticated();
+        const redirected = await resumeCheckoutIfPending();
+        if (redirected) {
+            return;
+        }
+
         navigate('/dashboard');
     };
 
@@ -31,7 +58,7 @@ export function Login() {
                 <div className={classes.googleWrapper}>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
-                            handleLogin(credentialResponse);
+                            void handleLogin(credentialResponse);
                         }}
                         onError={() => {
                             toast.error('Google Sign In failed');
@@ -47,7 +74,7 @@ export function Login() {
                     <span>or</span>
                 </div>
 
-                <form className={classes.form} onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                <form className={classes.form} onSubmit={async (e) => { e.preventDefault(); await handleLogin(); }}>
                     <div className={classes.inputGroup}>
                         <label>Email</label>
                         <input type="email" placeholder="you@company.com" required />

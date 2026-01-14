@@ -3,36 +3,40 @@ import { useTranslation } from 'react-i18next';
 import { getPriceForRegion, formatPrice } from '../services/pricingService';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classes from './Subscription.module.css'; // Reusing some card styles
 import { CheckCircle2 } from 'lucide-react';
+import { isUserAuthenticated } from '../services/authService';
+import { createCheckoutSession, storeCheckoutIntent } from '../services/checkoutService';
+import type { CheckoutPayload } from '../services/checkoutService';
 
 export function Pricing() {
     const { i18n, t } = useTranslation();
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const priceConfig = getPriceForRegion(i18n.language);
 
     const handleSubscribe = async () => {
+        const payload: CheckoutPayload = {
+            priceId: 'price_1QkVj2LLBW0D1DzAX9NXqRIB', // Pro Plan price ID
+            successUrl: `${window.location.origin}/dashboard/subscription?success=true`,
+            cancelUrl: `${window.location.origin}/pricing?canceled=true`
+        };
+
+        if (!isUserAuthenticated()) {
+            storeCheckoutIntent(payload);
+            toast.info('Please sign in to continue your subscription.');
+            navigate('/login', { state: { from: '/pricing', resumeCheckout: true } });
+            return;
+        }
+
         setLoading(true);
         try {
-            const response = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    priceId: 'price_1QkVj2LLBW0D1DzAX9NXqRIB', // Pro Plan price ID
-                    successUrl: `${window.location.origin}/dashboard/subscription?success=true`,
-                    cancelUrl: `${window.location.origin}/pricing?canceled=true`
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (data.url) {
-                window.location.href = data.url;
-            } else if (data.error) {
-                toast.error(data.error);
+            const result = await createCheckoutSession(payload);
+            if (result.url) {
+                window.location.href = result.url;
+            } else if (result.error) {
+                toast.error(result.error);
             } else {
                 toast.error('Failed to start checkout');
             }
