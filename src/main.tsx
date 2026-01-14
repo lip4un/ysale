@@ -5,6 +5,7 @@ import './index.css'
 import './i18n'
 import { ThemeProvider } from './context/ThemeContext'
 import { WhiteLabelProvider } from './context/WhiteLabelContext'
+import { AuthProvider } from './context/AuthContext'
 
 import { AppProvider } from './context/AppContext'
 
@@ -17,9 +18,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <WhiteLabelProvider>
         <ThemeProvider>
-          <AppProvider>
-            <App />
-          </AppProvider>
+          <AuthProvider>
+            <AppProvider>
+              <App />
+            </AppProvider>
+          </AuthProvider>
         </ThemeProvider>
       </WhiteLabelProvider>
     </GoogleOAuthProvider>

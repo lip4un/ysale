@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'sonner';
 import classes from './Login.module.css';
-import { markUserAuthenticated } from '../services/authService';
+import { useAuth } from '../context/AuthContext';
 import { consumeCheckoutIntent, createCheckoutSession } from '../services/checkoutService';
 
 export function Login() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const resumeCheckoutIfPending = async (): Promise<boolean> => {
         const pendingPayload = consumeCheckoutIntent();
@@ -39,7 +40,7 @@ export function Login() {
             toast.success('Signed in with Google!');
         }
 
-        markUserAuthenticated();
+        login();
         const redirected = await resumeCheckoutIfPending();
         if (redirected) {
             return;

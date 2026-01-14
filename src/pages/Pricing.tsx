@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classes from './Subscription.module.css'; // Reusing some card styles
 import { CheckCircle2 } from 'lucide-react';
-import { isUserAuthenticated } from '../services/authService';
+import { useAuth } from '../context/AuthContext';
 import { createCheckoutSession, storeCheckoutIntent } from '../services/checkoutService';
 import type { CheckoutPayload } from '../services/checkoutService';
 
@@ -14,6 +14,7 @@ export function Pricing() {
     const { i18n, t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
     const priceConfig = getPriceForRegion(i18n.language);
     const priceId = import.meta.env.VITE_STRIPE_PRICE_ID ?? 'price_1Snc6wHBYWcw0wGWtEiqCOc1';
 
@@ -29,7 +30,7 @@ export function Pricing() {
             cancelUrl: `${window.location.origin}/pricing?canceled=true`
         };
 
-        if (!isUserAuthenticated()) {
+        if (!isAuthenticated) {
             storeCheckoutIntent(payload);
             toast.info('Please sign in to continue your subscription.');
             navigate('/login', { state: { from: '/pricing', resumeCheckout: true } });

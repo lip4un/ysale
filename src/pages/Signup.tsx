@@ -4,11 +4,12 @@ import { BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { GoogleLogin } from '@react-oauth/google';
-import { markUserAuthenticated } from '../services/authService';
+import { useAuth } from '../context/AuthContext';
 import { consumeCheckoutIntent, createCheckoutSession } from '../services/checkoutService';
 
 export function Signup() {
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const resumeCheckoutIfPending = async (): Promise<boolean> => {
         const pendingPayload = consumeCheckoutIntent();
@@ -35,7 +36,7 @@ export function Signup() {
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         toast.success('Account created successfully!');
-        markUserAuthenticated();
+        login();
         const redirected = await resumeCheckoutIfPending();
         if (redirected) {
             return;
@@ -49,7 +50,7 @@ export function Signup() {
             toast.success('Signed up with Google!');
         }
 
-        markUserAuthenticated();
+        login();
         const redirected = await resumeCheckoutIfPending();
         if (redirected) {
             return;
