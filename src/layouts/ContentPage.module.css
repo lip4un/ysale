@@ -1,6 +1,6 @@
 .wrapper {
     min-height: 100vh;
-    background: #0A0A0B;
+    background: var(--color-bg);
     display: flex;
     flex-direction: column;
 }
@@ -11,35 +11,35 @@
 
 .hero {
     padding: 120px 0 80px;
-    background: linear-gradient(180deg, #000000 0%, #0A0A0B 100%);
-    border-bottom: 1px solid #27272A;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
     text-align: center;
 }
 
 .title {
     font-size: 3.5rem;
     font-weight: 800;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
     margin-bottom: 16px;
     letter-spacing: -1px;
 }
 
 .subtitle {
     font-size: 1.25rem;
-    color: #A1A1AA;
+    color: var(--color-text-secondary);
     max-width: 700px;
     margin: 0 auto;
 }
 
 .content {
     padding: 80px 0;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
 }
 
 .content h2 {
     font-size: 2rem;
     margin-bottom: 24px;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
     margin-top: 48px;
 }
 
@@ -50,14 +50,14 @@
 .content h3 {
     font-size: 1.5rem;
     margin-bottom: 16px;
-    color: #FAFAFA;
+    color: var(--color-text-primary);
     margin-top: 32px;
 }
 
 .content p {
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #A1A1AA;
+    color: var(--color-text-secondary);
     margin-bottom: 20px;
 }
 
@@ -65,7 +65,7 @@
 .content ol {
     margin-bottom: 24px;
     padding-left: 24px;
-    color: #A1A1AA;
+    color: var(--color-text-secondary);
 }
 
 .content li {
@@ -74,32 +74,32 @@
 }
 
 .content a {
-    color: #FAFAFA;
+    color: var(--color-primary);
     text-decoration: underline;
     transition: color 0.2s;
 }
 
 .content a:hover {
-    color: #A1A1AA;
+    color: var(--color-primary-hover);
 }
 
 .content code {
-    background: #18181B;
+    background: var(--color-surface-hover);
     padding: 2px 8px;
     border-radius: 4px;
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
-    color: #FAFAFA;
-    border: 1px solid #27272A;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
 }
 
 .content pre {
-    background: #18181B;
+    background: var(--color-surface-hover);
     padding: 20px;
     border-radius: 8px;
     overflow-x: auto;
     margin-bottom: 24px;
-    border: 1px solid #27272A;
+    border: 1px solid var(--color-border);
 }
 
 .content pre code {

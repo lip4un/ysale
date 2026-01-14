@@ -147,10 +147,15 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #000000;
+    background-color: var(--color-bg);
     z-index: 9999;
     padding: 40px;
     overflow-y: auto;
+    color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .tvMode {
+    background-color: #000000;
     color: #ffffff;
 }
 
@@ -161,6 +166,13 @@
 
 .tvMode .kpiCard,
 .tvMode .chartCard {
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .tvMode .kpiCard,
+[data-theme="dark"] .tvMode .chartCard {
     background-color: #0a0a0a;
     border-color: #1e293b;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);

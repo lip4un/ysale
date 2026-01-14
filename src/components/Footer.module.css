@@ -60,21 +60,33 @@
 .socialIcon {
     width: 40px;
     height: 40px;
-    background: #18181B;
-    border: 1px solid #27272A;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #A1A1AA;
+    color: var(--color-text-secondary);
     transition: all 0.3s ease;
 }
 
+[data-theme="dark"] .socialIcon {
+    background: #18181B;
+    border-color: #27272A;
+    color: #A1A1AA;
+}
+
 .socialIcon:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .socialIcon:hover {
     background: #27272A;
     border-color: #52525B;
     color: #FAFAFA;
-    transform: translateY(-2px);
 }
 
 /* Link Columns */
