@@ -1,0 +1,11 @@
+{
+  "name": "ysale",
+  "type": "javascript",
+  "main": "dist/index.html",
+  "compatibility_date": "2024-12-16",
+  "env": {
+    "production": {
+      "name": "ysale-prod"
+    }
+  }
+}
