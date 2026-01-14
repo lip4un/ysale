@@ -1,7 +1,15 @@
+import { getStripeClient } from './stripeClient';
+
 export interface CheckoutPayload {
     priceId: string;
     successUrl: string;
     cancelUrl: string;
+}
+
+interface CheckoutResponse {
+    url?: string;
+    error?: string;
+    handledClientRedirect?: boolean;
 }
 
 const CHECKOUT_INTENT_KEY = 'ysale_checkout_intent';
@@ -94,33 +102,92 @@ export const hasCheckoutIntent = (): boolean => {
     return readIntent() !== null;
 };
 
-interface CheckoutResponse {
-    url?: string;
-    error?: string;
-}
+const resolveCheckoutEndpoints = (): string[] => {
+    const endpoints: string[] = [];
+    const primary = import.meta.env.VITE_CHECKOUT_ENDPOINT;
+    const fallback = import.meta.env.VITE_CHECKOUT_FALLBACK_ENDPOINT;
 
-export const createCheckoutSession = async (payload: CheckoutPayload): Promise<CheckoutResponse> => {
+    if (primary) endpoints.push(primary);
+    if (fallback) endpoints.push(fallback);
+
+    // Relative path always last to keep default behavior when API lives with the app
+    endpoints.push('/api/checkout');
+
+    return Array.from(new Set(endpoints.filter(Boolean)));
+};
+
+const postCheckout = async (endpoint: string, payload: CheckoutPayload): Promise<CheckoutResponse> => {
     try {
-        const response = await fetch('/api/checkout', {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
+        const data = await response.json().catch(() => null);
+
         if (!response.ok) {
-            return { error: `HTTP error! status: ${response.status}` };
+            const message = (data as CheckoutResponse | null)?.error || `HTTP error! status: ${response.status}`;
+            return { error: message };
         }
 
-        const data = await response.json();
         if (typeof data !== 'object' || data === null) {
             return { error: 'Invalid response from checkout service' };
         }
 
         return data as CheckoutResponse;
     } catch (error) {
-        console.error('Checkout request failed', error);
-        return { error: 'Network error. Please try again.' };
+        console.error(`Checkout request failed for ${endpoint}`, error);
+        return { error: error instanceof Error ? error.message : 'Network error. Please try again.' };
     }
+};
+
+const redirectWithStripeClient = async (payload: CheckoutPayload): Promise<CheckoutResponse> => {
+    const stripe = await getStripeClient();
+    if (!stripe) {
+        return { error: 'Stripe publishable key not configured' };
+    }
+
+    const redirectToCheckout = (stripe as unknown as { redirectToCheckout?: (options: Record<string, unknown>) => Promise<{ error?: { message?: string } }> }).redirectToCheckout;
+
+    if (typeof redirectToCheckout !== 'function') {
+        return { error: 'Stripe client missing redirect helper' };
+    }
+
+    const { error } = await redirectToCheckout.call(stripe, {
+        lineItems: [{ price: payload.priceId, quantity: 1 }],
+        mode: 'subscription',
+        successUrl: payload.successUrl,
+        cancelUrl: payload.cancelUrl
+    });
+
+    if (error) {
+        return { error: error.message || 'Stripe redirect failed' };
+    }
+
+    return { handledClientRedirect: true };
+};
+
+export const createCheckoutSession = async (payload: CheckoutPayload): Promise<CheckoutResponse> => {
+    let lastError: string | undefined;
+
+    for (const endpoint of resolveCheckoutEndpoints()) {
+        const result = await postCheckout(endpoint, payload);
+        if (result.url || result.handledClientRedirect) {
+            return result;
+        }
+
+        if (result.error) {
+            lastError = result.error;
+        }
+    }
+
+    const fallbackResult = await redirectWithStripeClient(payload);
+    if (fallbackResult.handledClientRedirect) {
+        return fallbackResult;
+    }
+
+    return { error: fallbackResult.error ?? lastError ?? 'Failed to start checkout session' };
 };
 
 export const clearCheckoutIntent = (): void => {
@@ -131,3 +198,5 @@ export const clearCheckoutIntent = (): void => {
 };
 
 export const getCheckoutIntentKey = (): string => CHECKOUT_INTENT_KEY;
+
+export type { CheckoutResponse };

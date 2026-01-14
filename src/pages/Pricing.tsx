@@ -35,6 +35,8 @@ export function Pricing() {
             const result = await createCheckoutSession(payload);
             if (result.url) {
                 window.location.href = result.url;
+            } else if (result.handledClientRedirect) {
+                return;
             } else if (result.error) {
                 toast.error(result.error);
             } else {

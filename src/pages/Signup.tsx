@@ -23,6 +23,10 @@ export function Signup() {
             return true;
         }
 
+        if (result.handledClientRedirect) {
+            return true;
+        }
+
         toast.error(result.error ?? 'Failed to start checkout. Please try again.');
         navigate('/pricing');
         return true;
