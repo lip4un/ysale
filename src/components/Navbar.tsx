@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { BarChart3, Globe } from 'lucide-react';
+import { BarChart3, Globe, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import classes from './Navbar.module.css';
 import { ThemeToggle } from './ThemeToggle';
+import { useAuth } from '../context/AuthContext';
 
 const LANGUAGES = [
     { code: 'en', label: 'English' },
@@ -19,6 +20,7 @@ const LANGUAGES = [
 
 export function Navbar() {
     const { t, i18n } = useTranslation();
+    const { isAuthenticated } = useAuth();
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
@@ -58,9 +60,15 @@ export function Navbar() {
 
                     <ThemeToggle />
 
-                    <Link to="/login" className={classes.loginBtn}>
-                        {t('nav.getStarted')}
-                    </Link>
+                    {isAuthenticated ? (
+                        <Link to="/dashboard" className={classes.profileBtn} title={t('nav.dashboard')}>
+                            <UserCircle size={24} />
+                        </Link>
+                    ) : (
+                        <Link to="/login" className={classes.loginBtn}>
+                            {t('nav.getStarted')}
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

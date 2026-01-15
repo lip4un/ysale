@@ -88,6 +88,24 @@
     background-color: var(--color-primary-hover);
 }
 
+.profileBtn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.profileBtn:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
 @media (max-width: 768px) {
     .links {
         display: none;
