@@ -57,8 +57,12 @@ export async function onRequestGet({ request, env }) {
         const payload = await response.json();
 
         if (!response.ok) {
-            const errorMessage = payload?.error?.message || 'Falha ao consultar a Meta Ad Library';
-            return new Response(JSON.stringify({ error: errorMessage }), {
+            const metaError = payload?.error ?? null;
+            const errorMessage = metaError?.message || 'Falha ao consultar a Meta Ad Library';
+            return new Response(JSON.stringify({
+                error: errorMessage,
+                metaError
+            }), {
                 status: response.status,
                 headers: { 'Content-Type': 'application/json' }
             });
