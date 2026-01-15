@@ -1,11 +1,11 @@
 import classes from './CompetitorAnalysis.module.css';
 import { Search, Globe, Instagram, Facebook, MonitorSmartphone, RefreshCw } from 'lucide-react';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 type Platform = 'meta' | 'google';
 
 interface SpyAd {
-    id: number;
+    id: string | number;
     brand: string;
     platform: Platform;
     channel: 'facebook' | 'instagram' | 'search';
@@ -13,6 +13,7 @@ interface SpyAd {
     activeDays: number;
     copy: string;
     spendEstimate: number;
+    snapshotUrl?: string;
 }
 
 const PLATFORM_OPTIONS: Array<{ value: Platform; label: string; icon: ReactNode }> = [
@@ -20,23 +21,40 @@ const PLATFORM_OPTIONS: Array<{ value: Platform; label: string; icon: ReactNode 
     { value: 'google', label: 'Google Ads', icon: <MonitorSmartphone size={16} /> }
 ];
 
-const MOCK_ADS: SpyAd[] = [
-    { id: 1, brand: 'SneakerHead', platform: 'meta', channel: 'instagram', image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=400&q=80', activeDays: 45, copy: 'Summer sale is ON! Get 50% off on all running shoes.', spendEstimate: 2800 },
-    { id: 2, brand: 'RunFast', platform: 'meta', channel: 'facebook', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80', activeDays: 12, copy: 'The lightest shoe ever made. Pre-order now.', spendEstimate: 1100 },
-    { id: 3, brand: 'UrbanWalk', platform: 'meta', channel: 'instagram', image: 'https://images.unsplash.com/photo-1560769629-975e13b51862?auto=format&fit=crop&w=400&q=80', activeDays: 8, copy: 'Walk in style. New collection dropped.', spendEstimate: 750 },
-    { id: 4, brand: 'StrideLab', platform: 'google', channel: 'search', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80', activeDays: 30, copy: 'Running shoes laboratory grade comfort.', spendEstimate: 1900 },
-    { id: 5, brand: 'Velocity', platform: 'google', channel: 'search', image: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=400&q=80', activeDays: 18, copy: 'Velocity Boost - conquiste qualquer maratona.', spendEstimate: 1350 },
-    { id: 6, brand: 'PaceX', platform: 'meta', channel: 'facebook', image: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=400&q=80', activeDays: 65, copy: 'Nova linha PaceX com amortecimento ativo.', spendEstimate: 3200 }
+const GOOGLE_MOCK_ADS: SpyAd[] = [
+    { id: 'g-1', brand: 'StrideLab', platform: 'google', channel: 'search', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80', activeDays: 30, copy: 'Running shoes laboratory grade comfort.', spendEstimate: 1900 },
+    { id: 'g-2', brand: 'Velocity', platform: 'google', channel: 'search', image: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=400&q=80', activeDays: 18, copy: 'Velocity Boost - conquiste qualquer maratona.', spendEstimate: 1350 },
+    { id: 'g-3', brand: 'TrailFox', platform: 'google', channel: 'search', image: 'https://images.unsplash.com/photo-1513105737059-ff0cf0580e2e?auto=format&fit=crop&w=400&q=80', activeDays: 22, copy: 'TrailFox anti-slip outsole para qualquer terreno.', spendEstimate: 990 }
 ];
+
+interface MetaAdResponse {
+    ads: MetaAdRaw[];
+}
+
+interface MetaAdRaw {
+    id: string;
+    page_name?: string;
+    ad_creative_body?: string;
+    ad_snapshot_url?: string;
+    publisher_platforms?: string[];
+    spend?: { lower_bound?: number; upper_bound?: number };
+    ad_delivery_start_time?: string;
+    ad_delivery_stop_time?: string;
+}
 
 export function CompetitorAnalysis() {
     const [query, setQuery] = useState('');
+    const [currentSearchTerm, setCurrentSearchTerm] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>(['meta', 'google']);
+    const [metaAds, setMetaAds] = useState<SpyAd[]>([]);
+    const [metaLoading, setMetaLoading] = useState(false);
+    const [metaError, setMetaError] = useState<string | null>(null);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         setHasSearched(true);
+        setCurrentSearchTerm(query.trim());
     };
 
     const togglePlatform = (value: Platform) => {
@@ -51,16 +69,96 @@ export function CompetitorAnalysis() {
         setHasSearched(false);
     };
 
-    const filteredAds = useMemo(() => {
-        const normalizedQuery = query.trim().toLowerCase();
-        return MOCK_ADS.filter(ad => {
-            const matchesQuery = normalizedQuery.length === 0
-                || ad.brand.toLowerCase().includes(normalizedQuery)
-                || ad.copy.toLowerCase().includes(normalizedQuery);
-            const matchesPlatform = selectedPlatforms.includes(ad.platform);
-            return matchesQuery && matchesPlatform;
+    const normalizeMetaAds = useCallback((ads: MetaAdRaw[]): SpyAd[] => {
+        return ads.map(ad => {
+            const start = ad.ad_delivery_start_time ? new Date(ad.ad_delivery_start_time) : null;
+            const end = ad.ad_delivery_stop_time ? new Date(ad.ad_delivery_stop_time) : new Date();
+            const diff = start ? Math.max(1, Math.round(((end?.getTime() ?? Date.now()) - start.getTime()) / (1000 * 60 * 60 * 24))) : 0;
+            const channel = (ad.publisher_platforms && ad.publisher_platforms[0]) || 'facebook';
+            const spend = ad.spend?.upper_bound || ad.spend?.lower_bound || 0;
+
+            return {
+                id: ad.id,
+                brand: ad.page_name || 'Meta Advertiser',
+                platform: 'meta',
+                channel: channel === 'instagram' ? 'instagram' : 'facebook',
+                image: `https://source.unsplash.com/featured/400x400/?advertising&sig=${ad.id}`,
+                activeDays: diff,
+                copy: ad.ad_creative_body || 'Sem descrição disponível.',
+                spendEstimate: spend,
+                snapshotUrl: ad.ad_snapshot_url
+            } satisfies SpyAd;
         });
-    }, [query, selectedPlatforms]);
+    }, []);
+
+    useEffect(() => {
+        const shouldFetchMeta = hasSearched && selectedPlatforms.includes('meta');
+        if (!shouldFetchMeta) {
+            if (!selectedPlatforms.includes('meta')) {
+                setMetaAds([]);
+            }
+            return;
+        }
+
+        let aborted = false;
+        const fetchAds = async () => {
+            setMetaLoading(true);
+            setMetaError(null);
+            try {
+                const params = new URLSearchParams({
+                    q: currentSearchTerm,
+                    limit: '12',
+                    countries: 'BR'
+                });
+                const response = await fetch(`/api/spy-meta?${params.toString()}`);
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    throw new Error(result.error || 'Não foi possível carregar os anúncios Meta.');
+                }
+                const data = await response.json() as MetaAdResponse;
+                if (!aborted) {
+                    setMetaAds(normalizeMetaAds(data.ads));
+                }
+            } catch (error) {
+                if (!aborted) {
+                    setMetaError(error instanceof Error ? error.message : 'Erro inesperado ao buscar Meta Ads.');
+                    setMetaAds([]);
+                }
+            } finally {
+                if (!aborted) {
+                    setMetaLoading(false);
+                }
+            }
+        };
+
+        void fetchAds();
+
+        return () => {
+            aborted = true;
+        };
+    }, [hasSearched, currentSearchTerm, selectedPlatforms, normalizeMetaAds]);
+
+    const googleAds = useMemo(() => {
+        if (!selectedPlatforms.includes('google')) {
+            return [];
+        }
+        const normalizedQuery = currentSearchTerm.trim().toLowerCase();
+        return GOOGLE_MOCK_ADS.filter(ad => {
+            if (!hasSearched) {
+                return true;
+            }
+            return ad.brand.toLowerCase().includes(normalizedQuery) || ad.copy.toLowerCase().includes(normalizedQuery);
+        });
+    }, [hasSearched, currentSearchTerm, selectedPlatforms]);
+
+    const filteredAds = useMemo(() => {
+        const combined: SpyAd[] = [];
+        if (selectedPlatforms.includes('meta')) {
+            combined.push(...metaAds);
+        }
+        combined.push(...googleAds);
+        return combined;
+    }, [metaAds, googleAds, selectedPlatforms]);
 
     const stats = useMemo(() => {
         if (filteredAds.length === 0) {
@@ -77,11 +175,11 @@ export function CompetitorAnalysis() {
     }, [filteredAds]);
 
     const platformBreakdown = useMemo(() => {
-        return selectedPlatforms.map(value => {
-            const count = filteredAds.filter(ad => ad.platform === value).length;
-            return { value, count };
-        });
-    }, [filteredAds, selectedPlatforms]);
+        return PLATFORM_OPTIONS.map(option => ({
+            value: option.value,
+            count: filteredAds.filter(ad => ad.platform === option.value).length
+        }));
+    }, [filteredAds]);
 
     return (
         <div className={classes.wrapper}>
@@ -125,6 +223,12 @@ export function CompetitorAnalysis() {
 
             {hasSearched ? (
                 <div className={classes.results}>
+                    {metaLoading && (
+                        <div className={classes.loadingState}>Buscando anúncios reais no Meta Ads...</div>
+                    )}
+                    {metaError && (
+                        <p className={classes.errorMessage}>{metaError}</p>
+                    )}
                     <div className={classes.statsGrid}>
                         <div className={classes.statCard}>
                             <span>Ads ativos</span>
@@ -147,9 +251,9 @@ export function CompetitorAnalysis() {
                             </div>
                         </div>
                     </div>
-                    {filteredAds.length ? (
+                        {filteredAds.length ? (
                         <>
-                            <h3>Encontramos {filteredAds.length} anúncios ativos para "{query || 'todas as marcas'}"</h3>
+                            <h3>Encontramos {filteredAds.length} anúncios ativos para "{currentSearchTerm || query || 'todas as marcas'}"</h3>
                             <div className={classes.grid}>
                                 {filteredAds.map(ad => (
                                     <div key={ad.id} className={classes.card}>
@@ -175,7 +279,18 @@ export function CompetitorAnalysis() {
                                 <div className={classes.cardFooter}>
                                             <span className={classes.activeBadge}>Ativo há {ad.activeDays} dias</span>
                                             <span className={classes.spendBadge}>${ad.spendEstimate.toLocaleString()}</span>
-                                            <button className={classes.detailsBtn}>Ver criativo</button>
+                                            {ad.snapshotUrl ? (
+                                                <a
+                                                    className={classes.detailsBtn}
+                                                    href={ad.snapshotUrl}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    Ver no Meta
+                                                </a>
+                                            ) : (
+                                                <button className={classes.detailsBtn}>Ver criativo</button>
+                                            )}
                                 </div>
                             </div>
                         ))}

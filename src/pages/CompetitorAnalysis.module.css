@@ -142,6 +142,27 @@
     color: var(--color-text-primary);
 }
 
+.loadingState {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: var(--color-bg);
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+.errorMessage {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    color: #B91C1C;
+    text-align: center;
+    font-weight: 600;
+}
+
 .statsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
