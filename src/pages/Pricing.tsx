@@ -9,16 +9,44 @@ import { CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { createCheckoutSession, storeCheckoutIntent } from '../services/checkoutService';
 import type { CheckoutPayload } from '../services/checkoutService';
+import { useAppContext } from '../context/AppContext';
 
 export function Pricing() {
     const { i18n, t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const { activateSubscription } = useAppContext();
     const priceConfig = getPriceForRegion(i18n.language);
     const priceId = import.meta.env.VITE_STRIPE_PRICE_ID ?? 'price_1Snc6wHBYWcw0wGWtEiqCOc1';
+    const couponCodeEnv = import.meta.env.VITE_TEST_COUPON ?? 'YSALE100';
+    const [couponInput, setCouponInput] = useState('');
+    const [couponApplied, setCouponApplied] = useState(false);
+    const [couponError, setCouponError] = useState<string | null>(null);
+
+    const handleApplyCoupon = () => {
+        if (couponInput.trim().toUpperCase() === couponCodeEnv.toUpperCase()) {
+            setCouponApplied(true);
+            setCouponError(null);
+            toast.success('Cupom aplicado! Assine grátis para testar.');
+        } else {
+            setCouponApplied(false);
+            setCouponError('Cupom inválido. Tente novamente.');
+        }
+    };
 
     const handleSubscribe = async () => {
+        if (couponApplied) {
+            setLoading(true);
+            setTimeout(() => {
+                activateSubscription('Pro Plan');
+                toast.success('Assinatura ativada com 100% de desconto.');
+                navigate('/dashboard/subscription?success=true');
+                setLoading(false);
+            }, 400);
+            return;
+        }
+
         if (!priceId) {
             toast.error('Stripe price ID is not configured.');
             return;
@@ -97,6 +125,31 @@ export function Pricing() {
                     >
                         {loading ? 'Redirecting...' : 'Subscribe Now'}
                     </button>
+
+                    <div style={{ marginTop: '20px' }}>
+                        <h4 style={{ marginBottom: '8px' }}>Possui cupom de teste?</h4>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            <input
+                                type="text"
+                                placeholder="Digite o cupom"
+                                value={couponInput}
+                                onChange={(e) => setCouponInput(e.target.value)}
+                                disabled={couponApplied}
+                                style={{ flex: '1', minWidth: '160px', padding: '10px', borderRadius: '6px', border: '1px solid var(--color-border)' }}
+                            />
+                            <button
+                                type="button"
+                                onClick={handleApplyCoupon}
+                                disabled={couponApplied}
+                                className={classes.manageBtn}
+                                style={{ width: 'auto', padding: '10px 20px' }}
+                            >
+                                {couponApplied ? 'Cupom aplicado' : 'Aplicar' }
+                            </button>
+                        </div>
+                        {couponError && <p style={{ color: 'var(--color-error)', marginTop: '6px' }}>{couponError}</p>}
+                        {couponApplied && <p style={{ color: 'var(--color-success)', marginTop: '6px' }}>Cupom <strong>{couponCodeEnv}</strong> válido. Clique em “Subscribe Now”.</p>}
+                    </div>
 
                     <p style={{ marginTop: '20px', fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
                         30-day money-back guarantee. Cancel anytime.

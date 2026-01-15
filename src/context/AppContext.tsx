@@ -25,6 +25,7 @@ interface AppContextType {
     toggleRuleStatus: (id: string) => void;
     deleteRule: (id: string) => void;
     getFilteredCampaigns: () => Campaign[];
+    activateSubscription: (plan?: string, expiresAt?: string | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -33,7 +34,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const [campaigns, setCampaigns] = useState<Campaign[]>([]);
     const [connectedAccounts, setConnectedAccounts] = useState({ google: false, meta: false });
     const [tokens, setTokens] = useState<{ google: string | null; meta: string | null }>({ google: null, meta: null });
-    const [subscription, setSubscription] = useState({ active: false, plan: 'Free', expiresAt: null });
+    const [subscription, setSubscription] = useState<{ active: boolean; plan: string; expiresAt: string | null }>({
+        active: false,
+        plan: 'Free',
+        expiresAt: null
+    });
     const [rules, setRules] = useState<Rule[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -128,6 +133,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         });
     };
 
+    const activateSubscription = (plan = 'Pro Plan', expiresAt: string | null = null) => {
+        setSubscription({ active: true, plan, expiresAt });
+    };
+
     return (
         <AppContext.Provider value={{
             campaigns,
@@ -142,7 +151,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
             addRule,
             toggleRuleStatus,
             deleteRule,
-            getFilteredCampaigns
+            getFilteredCampaigns,
+            activateSubscription
         }}>
             {children}
         </AppContext.Provider>
