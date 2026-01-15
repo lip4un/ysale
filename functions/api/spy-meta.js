@@ -16,13 +16,18 @@ export async function onRequestGet({ request, env }) {
         const countries = url.searchParams.get('countries') || 'BR';
         const after = url.searchParams.get('after');
 
+        const countryList = countries
+            .split(',')
+            .map(code => code.trim().toUpperCase())
+            .filter(Boolean);
+
         const graphParams = new URLSearchParams({
             access_token: token,
             ad_active_status: 'ALL',
             ad_type: 'ALL',
-            ad_reached_countries: countries,
+            ad_reached_countries: JSON.stringify(countryList.length ? countryList : ['BR']),
             limit: String(limit),
-            publisher_platforms: 'facebook,instagram',
+            publisher_platforms: JSON.stringify(['facebook', 'instagram']),
             fields: [
                 'id',
                 'page_name',
