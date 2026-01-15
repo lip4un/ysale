@@ -32,10 +32,8 @@ export async function onRequestGet({ request, env }) {
                 'ad_creative_link_title',
                 'ad_snapshot_url',
                 'publisher_platforms',
-                'impressions.lower_bound',
-                'impressions.upper_bound',
-                'spend.lower_bound',
-                'spend.upper_bound',
+                'impressions{lower_bound,upper_bound}',
+                'spend{lower_bound,upper_bound}',
                 'ad_delivery_start_time',
                 'ad_delivery_stop_time'
             ].join(',')
