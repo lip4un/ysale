@@ -73,7 +73,8 @@ export async function onRequestGet({ request, env }) {
         });
     } catch (error) {
         console.error('spy-meta error:', error);
-        return new Response(JSON.stringify({ error: 'Erro interno ao consultar a Meta Ad Library.' }), {
+        const message = error instanceof Error ? error.message : 'Erro desconhecido ao consultar a Meta Ad Library.';
+        return new Response(JSON.stringify({ error: `Meta proxy failure: ${message}` }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
         });
