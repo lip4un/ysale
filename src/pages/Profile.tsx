@@ -1,7 +1,8 @@
 import classes from './Profile.module.css';
-import { User, Mail, Building, Globe, Save } from 'lucide-react';
+import { User, Mail, Building, Globe, Save, LogOut } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { useAuth } from '../context/AuthContext';
 
 interface ProfileForm {
     fullName: string;
@@ -20,6 +21,7 @@ const defaultProfile: ProfileForm = {
 };
 
 export function Profile() {
+    const { logout } = useAuth();
     const initialProfile = useMemo(() => {
         if (typeof window === 'undefined') {
             return defaultProfile;
@@ -62,6 +64,11 @@ export function Profile() {
                 toast.error('Unable to save profile locally');
             }
         }, 800);
+    };
+
+    const handleLogout = () => {
+        logout();
+        toast.success('Sessão encerrada com sucesso');
     };
 
     return (
@@ -134,6 +141,10 @@ export function Profile() {
                     </div>
 
                     <div className={classes.actions}>
+                        <button type="button" className={classes.logoutBtn} onClick={handleLogout}>
+                            <LogOut size={18} />
+                            Logout
+                        </button>
                         <button type="submit" className={classes.saveBtn} disabled={loading}>
                             <Save size={18} />
                             {loading ? 'Saving...' : 'Save Changes'}
