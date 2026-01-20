@@ -18,6 +18,7 @@ import { SmartRules } from './pages/SmartRules';
 import { WhiteLabelSettings } from './pages/WhiteLabelSettings';
 import { AdsManager } from './pages/AdsManager';
 import { NotFound } from './pages/NotFound';
+import { SeoToolkit } from './pages/SeoToolkit';
 
 // Footer pages
 import { Features } from './pages/Features';
@@ -71,6 +72,7 @@ function App() {
           <Route path="rules" element={<SmartRules />} />
           <Route path="whitelabel" element={<WhiteLabelSettings />} />
           <Route path="manager" element={<AdsManager />} />
+          <Route path="seo" element={<SeoToolkit />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="profile" element={<Profile />} />
         </Route>

@@ -12,7 +12,8 @@ import {
     Image as ImageIcon,
     Users,
     Search,
-    Zap
+    Zap,
+    Globe
 } from 'lucide-react';
 import classes from './DashboardLayout.module.css';
 import { NotificationCenter } from '../components/NotificationCenter';
@@ -34,6 +35,7 @@ export function DashboardLayout() {
         { path: '/dashboard/competitors', icon: <Search size={20} />, label: t('nav.competitors') },
         { path: '/dashboard/creatives', icon: <ImageIcon size={20} />, label: t('nav.creatives') },
         { path: '/dashboard/audiences', icon: <Users size={20} />, label: t('nav.audiences') },
+        { path: '/dashboard/seo', icon: <Globe size={20} />, label: 'SEO Toolkit' },
         { path: '/dashboard/ai', icon: <Sparkles size={20} />, label: t('nav.ai_analysis') },
         { path: '/dashboard/recommendations', icon: <Sparkles size={20} />, label: t('nav.recommendations') },
         { path: '/dashboard/rules', icon: <Zap size={20} />, label: t('nav.smart_rules') },
