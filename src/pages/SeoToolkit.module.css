@@ -64,6 +64,147 @@
     gap: 20px;
 }
 
+.connectionCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.statusBadge {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.statusConnected {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.statusDisconnected {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.actionsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.primaryButton,
+.secondaryButton {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.primaryButton {
+    background: var(--color-primary);
+    color: white;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.secondaryButton {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}
+
+.statusDetails {
+    min-width: 180px;
+    color: var(--color-text-secondary);
+}
+
+.propertiesSection {
+    border-top: 1px solid var(--color-border);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.propertiesHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.refreshBtn {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: white;
+    padding: 8px 16px;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.loadingText {
+    color: var(--color-text-secondary);
+}
+
+.propertiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.propertyCard {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.propertyCard:disabled {
+    cursor: progress;
+}
+
+.propertyActive {
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+}
+
+.propertyHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.propertyHeader strong {
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+}
+
+.propertyFooter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
 .panelHeader h2 {
     font-size: 1.4rem;
     color: var(--color-text-primary);
@@ -108,5 +249,10 @@
     .tab {
         width: 100%;
         justify-content: center;
+    }
+
+    .connectionCard {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
